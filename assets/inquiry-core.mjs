@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = '821023156004';
+export const CONTACT_NUMBER = '+821055552004';
 export const KAKAO_ID = 'J0_01';
 export function koreaToday(now = new Date()) {
   const parts = new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit' }).formatToParts(now);
@@ -15,7 +15,7 @@ export function validateStay({checkin,checkout,guests,eligible},today=koreaToday
   if (!Number.isFinite(a)||!Number.isFinite(b)) return {error:'dates'};
   if (a<dayNumber(today)) return {error:'past'};
   if (nights<1||nights>365) return {error:'length'};
-  if (![1,2,3].includes(Number(guests))) return {error:'guests'};
+  if (![1,2,3,4].includes(Number(guests))) return {error:'guests'};
   if (!eligible) return {error:'eligibility'};
   return {nights};
 }
@@ -27,4 +27,4 @@ export function buildMessage(stay,lang='en') {
   lines.push(en?'This message is an enquiry, not a confirmed booking.':'이 메시지는 예약 확정이 아닌 숙박 문의입니다.');
   return lines.join('\n');
 }
-export function whatsappLink(message) {return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;}
+export function smsLink(message,ios=false) {return `sms:${CONTACT_NUMBER}${ios?'&':'?'}body=${encodeURIComponent(message)}`;}
